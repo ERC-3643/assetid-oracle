@@ -1,30 +1,37 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.30;
 
+import { Initializable } from "@openzeppelin/contracts/proxy/utils/Initializable.sol";
 import { AggregatorV3Interface } from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
 import { IERC3643 } from "@erc3643org/erc-3643/contracts/ERC-3643/IERC3643.sol";
 import { IIdentity } from "@onchain-id/solidity/contracts/interface/IIdentity.sol";
 
+import { IAssetIdOracle } from "./interfaces/IAssetIdOracle.sol";
 import { TOPIC_NAV_PER_SHARE } from "./libraries/ConstantsLib.sol";
 import { ErrorsLib } from "./libraries/ErrorsLib.sol";
 import { UtilsLib } from "./libraries/UtilsLib.sol";
 
 /// @title AssetIdOracle
 /// @notice Oracle to get the erc3643 -> USD value, using details from AssetID info and payment token -> USD oracle
-contract AssetIdOracle is AggregatorV3Interface {
+contract AssetIdOracle is Initializable, IAssetIdOracle {
     /// @notice The identity contract
-    IIdentity public immutable identity;
+    IIdentity public identity;
     /// @notice The payment token oracle
-    AggregatorV3Interface public immutable paymentTokenOracle;
+    AggregatorV3Interface public paymentTokenOracle;
     /// @notice The description of the oracle
     string public description;
 
-    /// @notice Constructor
-    /// @param _erc3643 The erc3643 contract
-    /// @param _paymentTokenOracle The payment token oracle, giving the price of the payment token in USD
-    /// @param _description The description of this oracle
-    constructor(address _erc3643, address _paymentTokenOracle, string memory _description) {
+    constructor() {
+        _disableInitializers();
+    }
+
+    /// @inheritdoc IAssetIdOracle
+    function initialize(
+        address _erc3643,
+        address _paymentTokenOracle,
+        string memory _description
+    ) external initializer {
         identity = IIdentity(IERC3643(_erc3643).onchainID());
         paymentTokenOracle = AggregatorV3Interface(_paymentTokenOracle);
         description = _description;
