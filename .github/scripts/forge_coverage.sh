@@ -3,7 +3,7 @@
 FAIL=0
 
 echo "Generating coverage report..."
-COVERAGE_OUTPUT=$(forge coverage --no-match-coverage "(test|script|node_modules|DinoSecondary)" --report summary)
+COVERAGE_OUTPUT=$(forge coverage --no-match-coverage "(libraries|test|script|node_modules)" --report summary)
           
 # Display the coverage report
 echo "=== Coverage Report ==="

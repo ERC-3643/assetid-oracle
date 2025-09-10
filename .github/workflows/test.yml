@@ -52,19 +52,14 @@ jobs:
         id: lint
 
       - name: Run build
-        run: npm run build:forge
+        run: npm run build
         id: build
 
       - name: Run forge tests
-        run: npm run test:forge
+        run: npm run test
         id: test-forge
-
-      - name: Run hardhat tests
-        run: npm run test:hardhat
-        id: test-hardhat
 
       - name: Run coverage
         run: |
-          ./.github/scripts/hardhat_coverage.sh |
           ./.github/scripts/forge_coverage.sh
         id: coverage
