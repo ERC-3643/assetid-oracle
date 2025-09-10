@@ -1,0 +1,3 @@
+npm run lint
+.github/scripts/forge_coverage.sh
+.github/scripts/hardhat_coverage.sh
