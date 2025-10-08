@@ -8,8 +8,8 @@ import { AssetIdOracleFactory } from "contracts/factories/AssetIdOracleFactory.s
 import { IContractsDeployer, CONTRACTS_DEPLOYER_ADDRESS } from "scripts/IContractsDeployer.sol";
 
 contract DeployAssetIdOracleFactory is Script {
-    string public constant ASSET_ID_ORACLE_IMPLEMENTATION_REFERENCE = "AssetIdOracle_ImplementationReference_v1";
-    string public constant ASSET_ID_ORACLE_FACTORY = "AssetIdOracleFactory_v1";
+    string public constant ASSET_ID_ORACLE_IMPLEMENTATION_REFERENCE = "AssetIdOracle_ImplementationReference_v1.0.0";
+    string public constant ASSET_ID_ORACLE_FACTORY = "AssetIdOracleFactory_v1.0.0";
 
     IContractsDeployer public deployer = IContractsDeployer(CONTRACTS_DEPLOYER_ADDRESS);
 
