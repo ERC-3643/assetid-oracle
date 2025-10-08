@@ -106,4 +106,17 @@ contract AssetIdOracleIntegrationTest is Test {
         (, , , , bytes memory data, ) = diploIdentity.getClaim(claimIds[0]);
         (_price, _decimals, ) = abi.decode(data, (uint256, uint256, uint256));
     }
+
+    function _addClaim(uint256 _value, uint256 _decimals, uint256 _timestamp) public {
+        vm.startPrank(claimIssuer);
+        diploIdentity.addClaim(
+            TOPIC_NAV_PER_SHARE,
+            0,
+            claimIssuer,
+            new bytes(0),
+            abi.encode(_value, _decimals, _timestamp),
+            ""
+        );
+        vm.stopPrank();
+    }
 }
