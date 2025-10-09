@@ -20,7 +20,7 @@ contract SetImplementationReferenceUnitTest is Test {
         user1 = makeAddr("user1");
 
         implementationReference = address(new AssetIdOracle());
-        assetIdOracleFactory = new AssetIdOracleFactory(implementationReference);
+        assetIdOracleFactory = new AssetIdOracleFactory(implementationReference, address(this));
     }
 
     function testSetImplementationReferenceNonAdminReverts() public {

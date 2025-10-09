@@ -41,7 +41,7 @@ contract AssetIdOracleIntegrationTest is Test {
     }
 
     function setUp() public {
-        assetIdOracleFactory = new AssetIdOracleFactory(address(new AssetIdOracle()));
+        assetIdOracleFactory = new AssetIdOracleFactory(address(new AssetIdOracle()), address(this));
         assetIdOracleUsdc = AssetIdOracle(
             assetIdOracleFactory.createAssetIdOracle(address(diplo), address(usdcUsdOracle), "USDC / USD")
         );

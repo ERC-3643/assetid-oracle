@@ -30,7 +30,7 @@ contract CreateAssetIdOracleUnitTest is Test {
         assetPriceFeed = new OracleStub("Asset / USD", 8, 500_000_000);
 
         implementationReference = address(new AssetIdOracle());
-        assetIdOracleFactory = new AssetIdOracleFactory(implementationReference);
+        assetIdOracleFactory = new AssetIdOracleFactory(implementationReference, address(this));
     }
 
     function testCreateAssetIdOracleUnauthorizedReverts() public {
@@ -42,6 +42,11 @@ contract CreateAssetIdOracleUnitTest is Test {
     function testCreateAssetIdOracleZeroAddressERC3643Reverts() public {
         vm.expectRevert(ErrorsLib.ZeroAddress.selector);
         assetIdOracleFactory.createAssetIdOracle(address(0), address(assetPriceFeed), "Test Oracle");
+    }
+
+    function testCreateAssetIdOracleZeroAddressPaymentTokenOracleReverts() public {
+        vm.expectRevert(ErrorsLib.ZeroAddress.selector);
+        assetIdOracleFactory.createAssetIdOracle(address(erc3643), address(0), "Test Oracle");
     }
 
     function testCreateAssetIdOracleNominalCaseFromAdmin() public {

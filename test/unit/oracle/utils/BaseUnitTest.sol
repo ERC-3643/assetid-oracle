@@ -72,7 +72,7 @@ abstract contract BaseUnitTest is Test {
         user2 = makeAddr("User 2");
 
         // AssetIdOracle
-        assetIdOracleFactory = new AssetIdOracleFactory(address(new AssetIdOracle()));
+        assetIdOracleFactory = new AssetIdOracleFactory(address(new AssetIdOracle()), address(this));
         assetIdOracle = AssetIdOracle(
             assetIdOracleFactory.createAssetIdOracle(address(erc3643), address(usdcUsdOracle), "AssetIdOracle")
         );

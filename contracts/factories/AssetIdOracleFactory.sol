@@ -14,20 +14,30 @@ import { EventsLib } from "../libraries/EventsLib.sol";
 contract AssetIdOracleFactory is AccessControl {
     address public implementationReference;
 
-    constructor(address _implementationReference) {
+    /// @notice Constructor
+    /// @param _implementationReference The implementation reference
+    /// @param _admin The admin address (could be created by deployer, don't use msg.sender)
+    constructor(address _implementationReference, address _admin) {
         require(_implementationReference != address(0), ErrorsLib.ZeroAddress());
+        require(_admin != address(0), ErrorsLib.ZeroAddress());
 
-        _grantRole(ADMIN_ROLE, msg.sender);
+        implementationReference = _implementationReference;
 
-        setImplementationReference(_implementationReference);
+        _grantRole(DEFAULT_ADMIN_ROLE, _admin);
+        _grantRole(ADMIN_ROLE, _admin);
     }
 
+    /// @notice Create an asset id oracle
+    /// @param _erc3643 The erc3643 contract
+    /// @param _paymentTokenOracle The payment token oracle
+    /// @param _description The description of the oracle
     function createAssetIdOracle(
         address _erc3643,
         address _paymentTokenOracle,
         string memory _description
     ) external returns (address) {
         require(_erc3643 != address(0), ErrorsLib.ZeroAddress());
+        require(_paymentTokenOracle != address(0), ErrorsLib.ZeroAddress());
         require(hasRole(ADMIN_ROLE, msg.sender) || Ownable(_erc3643).owner() == msg.sender, ErrorsLib.Unauthorized());
 
         AssetIdOracle assetIdOracle = AssetIdOracle(Clones.clone(implementationReference));

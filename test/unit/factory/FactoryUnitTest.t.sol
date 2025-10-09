@@ -12,7 +12,7 @@ contract FactoryUnitTest is Test {
 
     function testConstructorInitialSetup() public {
         address implementation = address(new AssetIdOracle());
-        AssetIdOracleFactory factory = new AssetIdOracleFactory(implementation);
+        AssetIdOracleFactory factory = new AssetIdOracleFactory(implementation, address(this));
 
         assertEq(factory.implementationReference(), implementation);
         assertTrue(factory.hasRole(ADMIN_ROLE, address(this)));
@@ -20,6 +20,11 @@ contract FactoryUnitTest is Test {
 
     function testConstructorZeroAddressImplementationReference() public {
         vm.expectRevert(ErrorsLib.ZeroAddress.selector);
-        new AssetIdOracleFactory(address(0));
+        new AssetIdOracleFactory(address(0), address(this));
+    }
+
+    function testConstructorZeroAddressAdmin() public {
+        vm.expectRevert(ErrorsLib.ZeroAddress.selector);
+        new AssetIdOracleFactory(address(this), address(0));
     }
 }
